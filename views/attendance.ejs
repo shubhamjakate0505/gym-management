@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mark Attendance</title>
+</head>
+<body>
+  <h1>Mark Attendance for <%= user.name %></h1>
+  
+  <form method="POST" action="/mark-attendance">
+    <label for="status">Select your attendance status:</label>
+    <select id="status" name="status">
+      <option value="present">Present</option>
+      <option value="absent">Absent</option>
+    </select>
+
+    <button type="submit">Submit Attendance</button>
+  </form>
+
+  <br>
+  <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

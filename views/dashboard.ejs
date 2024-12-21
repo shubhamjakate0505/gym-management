@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Welcome <%= user.name %>!</h1>
+
+  <h3>Your Subscription: <%= user.subscriptionStatus %></h3>
+
+  <h3>Attendance</h3>
+  <a href="/attendance-form"><button>Mark Attendance</button></a>
+  
+  <h3>Subscription</h3>
+  <form method="POST" action="/renew-subscription">
+    <button type="submit">Renew Subscription</button>
+  </form>
+
+  <br><br>
+  
+</body>
+</html>

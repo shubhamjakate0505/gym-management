@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gym Management System</title>
+</head>
+<body>
+  <h1>Welcome to Gym Management</h1>
+
+  <button id="pay-button">Pay Now</button> 
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.getElementById('pay-button').onclick = async function(e) {
+    e.preventDefault();
+ 
+        const response = await fetch('/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({}) 
+      });
+
+      if (!response.ok) {
+        alert('Error creating order');
+        return;
+      }
+    const orderData = await response.json();
+      var options = {
+      key: 'your_key_id', 
+      amount: orderData.amount, 
+      currency: orderData.currency,
+      order_id: orderData.id, 
+      name: 'Gym Subscription',
+      description: 'Monthly Gym Membership',
+      handler: function (response) {
+      console.log('Payment successful', response);    
+      fetch('/payment-success', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+          })
+          }).then(res => {
+            if (res.ok) {
+              alert('Subscription successfully activated!');
+            } else {
+              alert('Payment confirmation failed');
+            }
+          });
+        },
+        prefill: {
+          name: 'User Name',
+          email: 'user@example.com',
+        },
+        theme: {
+          color: '#3399cc'
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+  </script> 
+</body>
+</html>
